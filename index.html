@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgegapDle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="min-h-screen bg-[#050505] text-white">
+    <main class="mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-center px-4 py-5 sm:px-6 lg:px-8">
+      <header class="mb-5 text-center">
+        <div class="inline-flex items-center gap-3">
+          <span class="rounded bg-[#f5c518] px-3 py-2 text-2xl font-black tracking-tight text-black sm:text-4xl">Agegap</span>
+          <span class="text-3xl font-black tracking-tight text-white sm:text-5xl">Dle</span>
+        </div>
+        <div class="mt-5 grid grid-cols-3 gap-2 text-center text-sm">
+          <div class="rounded border border-[#2a2a2a] bg-[#121212] px-3 py-2">
+            <span class="block text-[#b3b3b3]">Score</span>
+            <strong id="score" class="text-lg text-[#f5c518]">0</strong>
+          </div>
+          <div class="rounded border border-[#2a2a2a] bg-[#121212] px-3 py-2">
+            <span class="block text-[#b3b3b3]">Date</span>
+            <strong id="round" class="text-lg text-[#f5c518]">Today</strong>
+          </div>
+          <div class="rounded border border-[#2a2a2a] bg-[#121212] px-3 py-2">
+            <span class="block text-[#b3b3b3]">Guesses</span>
+            <strong id="guesses" class="text-lg text-[#f5c518]">3</strong>
+          </div>
+        </div>
+        <p class="mt-3 text-sm font-semibold text-[#b3b3b3]">
+          Countdown to next game: <span id="countdown" class="text-[#f5c518]">--:--:--</span>
+        </p>
+      </header>
+
+      <section class="mx-auto w-full">
+        <article class="overflow-hidden rounded border border-[#2a2a2a] bg-[#121212] shadow-2xl shadow-black/70">
+          <div class="relative aspect-[4/3] bg-black">
+            <img id="coupleImage" class="h-full w-full object-cover" alt="" />
+            <div class="absolute inset-x-0 bottom-0 border-t border-[#f5c518]/40 bg-gradient-to-t from-black via-black/80 to-transparent p-4 sm:p-6">
+              <h2 id="coupleName" class="text-2xl font-black tracking-tight sm:text-4xl"></h2>
+            </div>
+          </div>
+
+          <div class="space-y-4 p-4 sm:p-6">
+            <div>
+              <div class="mb-2 flex items-center justify-between text-sm text-[#b3b3b3]">
+                <span id="minLabel">0 years</span>
+                <strong id="guessValue" class="rounded bg-[#f5c518] px-3 py-1 text-base text-black">10 years</strong>
+                <span id="maxLabel">30 years</span>
+              </div>
+              <input id="gapSlider" class="age-slider w-full" type="range" min="0" max="30" value="10" step="1" />
+            </div>
+            <div id="history" class="space-y-2"></div>
+
+            <div class="grid gap-3">
+              <button id="checkButton" class="rounded bg-[#f5c518] px-4 py-3 font-black text-black transition hover:bg-[#ffd84d] focus:outline-none focus:ring-4 focus:ring-[#f5c518]/30">
+                Check
+              </button>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

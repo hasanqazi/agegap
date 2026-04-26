@@ -1,0 +1,76 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background:
+    radial-gradient(circle at top, rgb(245 197 24 / 0.12), transparent 30rem),
+    #050505;
+}
+
+.age-slider {
+  --active-start: 0%;
+  --active-mid: 50%;
+  --active-end: 100%;
+  appearance: none;
+  background: linear-gradient(
+    90deg,
+    #3f3f46 0%,
+    #3f3f46 var(--active-start),
+    #22c55e var(--active-start),
+    #f5c518 var(--active-mid),
+    #ef4444 var(--active-end),
+    #3f3f46 var(--active-end),
+    #3f3f46 100%
+  );
+  border-radius: 999px;
+  cursor: pointer;
+  height: 1rem;
+  outline: none;
+}
+
+.age-slider::-webkit-slider-thumb {
+  appearance: none;
+  background: #f5c518;
+  border: 4px solid #050505;
+  border-radius: 999px;
+  box-shadow: 0 10px 25px rgb(0 0 0 / 0.35);
+  height: 2.15rem;
+  width: 2.15rem;
+}
+
+.age-slider::-moz-range-thumb {
+  background: #f5c518;
+  border: 4px solid #050505;
+  border-radius: 999px;
+  box-shadow: 0 10px 25px rgb(0 0 0 / 0.35);
+  height: 1.65rem;
+  width: 1.65rem;
+}
+
+.age-slider:focus-visible::-webkit-slider-thumb {
+  outline: 4px solid rgb(245 197 24 / 0.4);
+}
+
+.age-slider:focus-visible::-moz-range-thumb {
+  outline: 4px solid rgb(245 197 24 / 0.4);
+}
+
+.age-slider:disabled {
+  background: #3f3f46;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.age-slider:disabled::-webkit-slider-thumb {
+  background: #a1a1aa;
+  cursor: not-allowed;
+}
+
+.age-slider:disabled::-moz-range-thumb {
+  background: #a1a1aa;
+  cursor: not-allowed;
+}
