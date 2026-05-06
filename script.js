@@ -228,10 +228,8 @@ function checkGuess() {
   const guess = Number(els.slider.value);
   const difference = Math.abs(guess - answer);
 
-  state.history.push({ guess, difference });
-  addHistory(guess, difference);
-
   if (guess === answer) {
+    recordGuess(guess, difference);
     state.score += state.guessesLeft;
     endRound(`Correct. ${couple.name} have an age gap of ${answer} years.`, true);
     return;
@@ -239,11 +237,13 @@ function checkGuess() {
 
   state.guessesLeft -= 1;
   if (state.guessesLeft === 0) {
+    recordGuess(guess, difference);
     endRound(`Out of guesses. The answer was ${answer} years.`, false);
     return;
   }
 
   narrowRange(answer, guess);
+  recordGuess(guess, difference);
   updateStats();
   saveGame();
 }
@@ -267,14 +267,48 @@ function narrowRange(answer, guess) {
   setSliderRange(state.minGap, state.maxGap, Math.round((state.minGap + state.maxGap) / 2));
 }
 
-function addHistory(guess, difference) {
+function recordGuess(guess, difference) {
+  const rangeMin = state.minGap;
+  const rangeMax = state.maxGap;
+  const temperature = getTemperature(difference, rangeMin, rangeMax);
+  const item = { guess, difference, rangeMin, rangeMax, temperature: temperature.label };
+
+  state.history.push(item);
+  addHistory(item);
+}
+
+function getTemperature(difference, rangeMin, rangeMax) {
+  if (difference === 0) {
+    return { label: "Correct", className: "text-emerald-300" };
+  }
+
+  const rangeWidth = Math.max(1, rangeMax - rangeMin);
+  const hotThreshold = Math.max(1, Math.ceil(rangeWidth * 0.1));
+  const isHot = difference <= hotThreshold;
+
+  return {
+    label: isHot ? "Hot" : "Cold",
+    className: isHot ? "text-emerald-300" : "text-sky-300"
+  };
+}
+
+function addHistory(item) {
+  const { guess, difference } = item;
+  const temperature = item.temperature
+    ? {
+        label: item.temperature,
+        className: item.temperature === "Cold" ? "text-sky-300" : "text-emerald-300"
+      }
+    : getTemperature(
+        difference,
+        Number.isFinite(item.rangeMin) ? item.rangeMin : state.minGap,
+        Number.isFinite(item.rangeMax) ? item.rangeMax : state.maxGap
+      );
   const entry = document.createElement("div");
-  const temperature = difference <= 3 ? "Hot" : "Cold";
-  const temperatureClass = difference <= 3 ? "text-emerald-300" : "text-sky-300";
   entry.className = "flex items-center justify-between rounded border border-[#2a2a2a] bg-black px-3 py-2 text-sm";
   entry.innerHTML = `
     <span>Guessed <strong>${guess}</strong> years</span>
-    <span class="${temperatureClass}">${difference === 0 ? "Correct" : temperature}</span>
+    <span class="${temperature.className}">${temperature.label}</span>
   `;
   els.history.prepend(entry);
 }
@@ -336,7 +370,7 @@ function restoreSavedGame() {
   );
 
   els.history.innerHTML = "";
-  state.history.forEach((item) => addHistory(item.guess, item.difference));
+  state.history.forEach((item) => addHistory(item));
 
   if (state.finalStatus) {
     addStatus(state.finalStatus.message, state.finalStatus.won);
