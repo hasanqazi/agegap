@@ -14,7 +14,8 @@ const state = {
   finalStatus: null,
   isRoundOver: false,
   clockSyncedAtMs: 0,
-  clockSyncedAtPerformanceMs: 0
+  clockSyncedAtPerformanceMs: 0,
+  isAppReady: false
 };
 
 const els = {
@@ -45,7 +46,7 @@ let clockResyncTimer = null;
 
 async function loadCouples() {
   try {
-    setControlsEnabled(false);
+    setAppReady(false);
     await syncTrustedClock();
     const response = await fetch("data.json");
     if (!response.ok) throw new Error("Could not load data.json");
@@ -54,21 +55,30 @@ async function loadCouples() {
     state.currentToday = getTodayKey();
     state.today = state.currentToday;
     state.currentIndex = getDailyCoupleIndex(state.couples, state.today);
+    setAppReady(true);
     renderRound();
-    setControlsEnabled(true);
     startCountdown();
     startClockResync();
   } catch (error) {
     addStatus("Could not verify internet time or load game data. Refresh when you are online.", false);
-    setControlsEnabled(false);
+    setAppReady(false);
   }
 }
 
-function setControlsEnabled(isEnabled) {
-  [els.archiveButton, els.checkButton].forEach((button) => {
-    button.disabled = !isEnabled;
-    button.classList.toggle("opacity-50", !isEnabled);
-  });
+function setAppReady(isReady) {
+  state.isAppReady = isReady;
+  setArchiveEnabled(isReady);
+  setCheckButtonEnabled(isReady);
+}
+
+function setArchiveEnabled(isEnabled) {
+  els.archiveButton.disabled = !isEnabled;
+  els.archiveButton.classList.toggle("opacity-50", !isEnabled);
+}
+
+function setCheckButtonEnabled(isEnabled) {
+  els.checkButton.disabled = !isEnabled;
+  els.checkButton.classList.toggle("opacity-50", !isEnabled);
 }
 
 async function syncTrustedClock() {
@@ -260,6 +270,8 @@ function renderRound() {
   els.slider.disabled = false;
   els.guessValue.classList.remove("hidden");
   els.checkButton.classList.remove("hidden");
+  setCheckButtonEnabled(state.isAppReady);
+  setArchiveEnabled(state.isAppReady);
 
   setSliderRange(state.minGap, state.maxGap, Math.round((state.minGap + state.maxGap) / 2));
   restoreSavedGame();
@@ -457,6 +469,8 @@ function endRound(message, won) {
   els.slider.disabled = true;
   els.guessValue.classList.add("hidden");
   els.checkButton.classList.add("hidden");
+  setCheckButtonEnabled(false);
+  setArchiveEnabled(state.isAppReady);
 
   updateStats();
   saveGame();
@@ -511,6 +525,8 @@ function restoreSavedGame() {
     els.slider.disabled = true;
     els.guessValue.classList.add("hidden");
     els.checkButton.classList.add("hidden");
+    setCheckButtonEnabled(false);
+    setArchiveEnabled(state.isAppReady);
   }
 }
 
