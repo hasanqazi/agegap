@@ -74,3 +74,25 @@ body {
   background: #a1a1aa;
   cursor: not-allowed;
 }
+
+.archive-dialog {
+  backdrop-filter: blur(8px);
+}
+
+#archiveList {
+  scrollbar-color: #f5c518 #050505;
+}
+
+#archiveList::-webkit-scrollbar {
+  width: 0.65rem;
+}
+
+#archiveList::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+#archiveList::-webkit-scrollbar-thumb {
+  background: #f5c518;
+  border: 2px solid #050505;
+  border-radius: 999px;
+}

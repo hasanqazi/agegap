@@ -29,6 +29,14 @@
             <strong id="guesses" class="text-lg text-[#f5c518]">3</strong>
           </div>
         </div>
+        <button id="archiveButton" class="mt-4 inline-flex items-center gap-2 rounded border border-[#f5c518]/60 bg-[#121212] px-4 py-2 text-sm font-black text-[#f5c518] transition hover:border-[#f5c518] hover:bg-[#1d1d1d] focus:outline-none focus:ring-4 focus:ring-[#f5c518]/30" type="button" aria-haspopup="dialog">
+          <svg class="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" />
+            <path d="M16 3v4M8 3v4M3 10h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          </svg>
+          Archive
+        </button>
         <p class="mt-3 text-sm font-semibold text-[#b3b3b3]">
           Countdown to next game: <span id="countdown" class="text-[#f5c518]">--:--:--</span>
         </p>
@@ -63,6 +71,26 @@
         </article>
       </section>
     </main>
+
+    <div id="archiveDialog" class="archive-dialog fixed inset-0 z-50 hidden items-center justify-center bg-black/75 px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="archiveTitle">
+      <section class="w-full max-w-lg overflow-hidden rounded border border-[#2a2a2a] bg-[#121212] shadow-2xl shadow-black/80">
+        <div class="flex items-center justify-between border-b border-[#2a2a2a] px-4 py-3">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded bg-[#f5c518] text-black">
+              <svg class="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" />
+                <path d="M16 3v4M8 3v4M3 10h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </span>
+            <h2 id="archiveTitle" class="text-xl font-black text-white">Archive</h2>
+          </div>
+          <button id="archiveCloseButton" class="rounded px-3 py-2 text-2xl leading-none text-[#b3b3b3] transition hover:bg-black hover:text-white focus:outline-none focus:ring-4 focus:ring-[#f5c518]/30" type="button" aria-label="Close archive">
+            &times;
+          </button>
+        </div>
+        <div id="archiveList" class="max-h-[65vh] space-y-3 overflow-y-auto p-4"></div>
+      </section>
+    </div>
 
     <script src="script.js"></script>
   </body>
