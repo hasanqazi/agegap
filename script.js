@@ -97,7 +97,7 @@ async function getInternetTime() {
         return time;
       }
     } catch (error) {
-      // Try the next trusted source.
+      // get next source  here
     }
   }
 
@@ -330,7 +330,7 @@ function startClockResync() {
 
   clockResyncTimer = setInterval(() => {
     syncTrustedClock().catch(() => {
-      // Keep the already verified monotonic clock running if a refresh fails.
+      // keep the clock
     });
   }, 300000);
 }
